@@ -1,0 +1,4 @@
+3
+1,conan,aoyama,manga,true
+2,doremon,fujiko,manga,true
+3,nguvan, bo giao duc, sach giao khoa, true
