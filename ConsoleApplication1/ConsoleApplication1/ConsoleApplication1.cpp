@@ -62,10 +62,8 @@ void Nhap(douList& ds)
 	cin.ignore();
 	cout << "Nhap ten sach: ";
 	getline(cin, b.nameBook);
-	cin.ignore();
 	cout << "Nhap ten tac gia: ";
 	getline(cin, b.nameAuthor);
-	cin.ignore();
 	cout << "Nhap ten the loai: ";
 	getline(cin, b.category);
 // Tao mot node moi doc lap bang ham taoNode
@@ -82,8 +80,8 @@ void xuatToanBo(douList &ds)
 	{
 		cout << "****************************\n";
 		cout << "Ma so: " << p->data.number << endl;
-		cout << "Ten tac gia: " << p->data.nameAuthor << endl;
 		cout << "Ten sach: " << p->data.nameBook << endl;
+		cout << "Ten tac gia: " << p->data.nameAuthor << endl;
 		cout << "The loai: " << p->data.category << endl;
 		cout << "Tinh trang: ";
 		if (p->data.condition == "true")
@@ -155,7 +153,7 @@ void xoaViTriK(douList& ds)
 	}
 }
 
-void timSach(douList ds)
+void timSach(douList &ds)
 {
 	string nameToFind;
 	cin.ignore();
@@ -164,7 +162,7 @@ void timSach(douList ds)
 	Node* p = new Node;
 	for (p = ds.head; p != NULL; p = p->next)
 	{
-		if (p->data.nameBook == nameToFind)
+		if (nameToFind.compare(p->data.nameBook) == 0)
 		{
 			cout << "Thong tin cua quyen sach ban can tim la: \n";
 			cout << "Ma so: " << p->data.number << endl;
@@ -176,8 +174,8 @@ void timSach(douList ds)
 				cout << "Con sach \n";
 			else
 				cout << "Het sach \n";
+			return;
 		}
-		return;
 	}
 	cout << "Quyen sach ban tim khong co trong thu vien \n";
 }
@@ -186,12 +184,12 @@ void muonSach(douList &ds)
 {
 	string nameToBorrow;
 	cin.ignore();
-	cout << "Ban muon muon quyen sach: \n";
+	cout << "Ban muon muon quyen sach: ";
 	getline(cin, nameToBorrow); 
 	Node* p = new Node;
 	for (p = ds.head; p != NULL; p = p->next)
 	{
-		if (p->data.nameBook == nameToBorrow)
+		if (p->data.nameBook.compare(nameToBorrow) == 0)
 		{
 			if (p->data.condition == "true")
 			{
@@ -200,26 +198,27 @@ void muonSach(douList &ds)
 			}
 			else
 				cout << "Quyen sach nay da co nguoi muon! \n";
+			return;
 		}
-		return;
 	}
 	cout << "Quyen sach nay khong co trong thu vien \n";
 }
 
-void traSach(douList ds)
+void traSach(douList &ds)
 {
 	string nameToGiveBack;
 	cin.ignore();
-	cout << "Nhap ten quyen sach ban muon tra: \n";
+	cout << "Nhap ten quyen sach ban muon tra: ";
 	getline(cin, nameToGiveBack); 
 	Node* p = new Node;
 	for (p = ds.head; p != NULL; p = p->next)
 	{
-		if (p->data.nameBook == nameToGiveBack)
+		if (p->data.nameBook.compare(nameToGiveBack) == 0)
 		{
-			p->data.condition = true;
+			p->data.condition = "true";
+			cout << "Tra sach thanh cong \n";
+			return;
 		}
-		return;
 	}
 	cout << "Quyen sach nay khong co trong thu vien! \n";
 }
@@ -228,15 +227,14 @@ void nhapTuFile(douList& ds, ifstream &FileIn)
 {
 	// Nhap thong tin cho sach
 	Book b;
-	
-	cin.ignore();
-	getline(FileIn, b.number);
-	cin.ignore();
+//	cin.ignore();
+	getline(FileIn, b.number, ',');
+//	cin.ignore();
 	getline(FileIn, b.nameBook, ',');
-	cin.ignore();
+//	cin.ignore();
 	getline(FileIn, b.nameAuthor, ',');
-	cin.ignore();
-	getline(FileIn, b.category, ',');
+//	cin.ignore();
+	getline(FileIn, b.category);
 	
 	// Tao mot node moi doc lap bang ham taoNode
 	Node* p = new Node;
@@ -246,14 +244,12 @@ void nhapTuFile(douList& ds, ifstream &FileIn)
 }
 void loadData(ifstream& FileIn, douList& ds)
 {
-	FileIn.open("dataThuVien.txt");
 	int n;
 	FileIn >> n;
 	for (int i = 0; i < n; i++)
 	{
 		nhapTuFile(ds, FileIn);
 	}
-	FileIn.close();
 }
 
 void Menu()
@@ -321,7 +317,7 @@ int main()
 	khoiTao(ds);
 	Menu();
 	loadData(File, ds);
-	while (true)
+	while (true)    
 	{
 		cout << "Lua chon cua ban la: ";
 		Xuli(ds);
